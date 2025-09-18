@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AI Nutrition Analyzer Design System - Dark Theme with Gradients */
+
+@layer base {
+  :root {
+    /* Dark theme base colors */
+    --background: 220 13% 7%;
+    --foreground: 0 0% 98%;
+    
+    /* Card colors for dark theme */
+    --card: 220 13% 10%;
+    --card-foreground: 0 0% 98%;
+    
+    /* Popover colors */
+    --popover: 220 13% 10%;
+    --popover-foreground: 0 0% 98%;
+    
+    /* Primary accent - vibrant green for health/nutrition */
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 98%;
+    
+    /* Secondary - muted green */
+    --secondary: 220 13% 15%;
+    --secondary-foreground: 0 0% 98%;
+    
+    /* Muted colors */
+    --muted: 220 13% 15%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    /* Accent colors */
+    --accent: 220 13% 15%;
+    --accent-foreground: 0 0% 98%;
+    
+    /* Status colors for nutrition tracking */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 9%;
+    
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    
+    /* UI elements */
+    --border: 220 13% 20%;
+    --input: 220 13% 15%;
+    --ring: 142 76% 36%;
+    
+    --radius: 0.75rem;
+    
+    /* Custom gradients for nutrition app */
+    --gradient-primary: linear-gradient(135deg, hsl(220 13% 7%), hsl(220 13% 11%));
+    --gradient-card: linear-gradient(145deg, hsl(220 13% 10%), hsl(220 13% 12%));
+    --gradient-success: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 70% 45%));
+    --gradient-warning: linear-gradient(135deg, hsl(38 92% 50%), hsl(45 93% 47%));
+    --gradient-danger: linear-gradient(135deg, hsl(0 72% 51%), hsl(0 84% 60%));
+    
+    /* Shadows for depth */
+    --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -2px hsl(0 0% 0% / 0.05);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.15s ease-out;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+  
+  /* Remove dark class overrides since we're using dark theme by default */
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    background: var(--gradient-primary);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Gradient utilities */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+  
+  .gradient-success {
+    background: var(--gradient-success);
+  }
+  
+  .gradient-warning {
+    background: var(--gradient-warning);
+  }
+  
+  .gradient-danger {
+    background: var(--gradient-danger);
+  }
+  
+  /* Shadow utilities */
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-elevated {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  /* Animation utilities */
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-fast {
+    transition: var(--transition-fast);
+  }
+  
+  /* Nutrition status indicators */
+  .status-good {
+    @apply bg-success/20 text-success border-success/30;
+  }
+  
+  .status-warning {
+    @apply bg-warning/20 text-warning border-warning/30;
+  }
+  
+  .status-danger {
+    @apply bg-destructive/20 text-destructive border-destructive/30;
+  }
+  
+  /* Sidebar styles */
+  .sidebar-item {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg transition-smooth hover:bg-accent/50 text-muted-foreground hover:text-foreground;
+  }
+  
+  .sidebar-item.active {
+    @apply bg-primary/10 text-primary border-l-2 border-primary;
+  }
+  
+  /* Chat bubble styles */
+  .chat-bubble-user {
+    @apply bg-primary/20 text-foreground rounded-2xl rounded-br-md;
+  }
+  
+  .chat-bubble-bot {
+    @apply bg-muted text-foreground rounded-2xl rounded-bl-md;
+  }
+}
