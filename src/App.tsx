@@ -11,6 +11,8 @@ import FoodLog from "./pages/FoodLog";
 import SmartDevice from "./pages/SmartDevice";
 import Chatbot from "./pages/Chatbot";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +32,8 @@ const App = () => (
               <Route path="/smart-device" element={<SmartDevice />} />
               <Route path="/chatbot" element={<Chatbot />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

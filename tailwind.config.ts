@@ -39,6 +39,11 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
         },
+        "fitness-primary": "hsl(var(--fitness-primary))",
+        "fitness-peach": "hsl(var(--fitness-peach))",
+        "fitness-card": "hsl(var(--fitness-card))",
+        "fitness-light": "hsl(var(--fitness-light))",
+        "fitness-muted": "hsl(var(--fitness-muted))",
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",

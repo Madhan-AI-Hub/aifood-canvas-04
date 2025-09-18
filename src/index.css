@@ -58,6 +58,14 @@
     --gradient-warning: linear-gradient(135deg, hsl(38 92% 50%), hsl(45 93% 47%));
     --gradient-danger: linear-gradient(135deg, hsl(0 72% 51%), hsl(0 84% 60%));
     
+    /* Fitness-inspired gradients for login */
+    --gradient-fitness: linear-gradient(135deg, hsl(25 95% 85%), hsl(180 84% 45%));
+    --fitness-primary: 180 84% 45%;
+    --fitness-peach: 25 95% 85%;
+    --fitness-card: 220 13% 10%;
+    --fitness-light: 0 0% 90%;
+    --fitness-muted: 215 20.2% 65.1%;
+    
     /* Shadows for depth */
     --shadow-card: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -1px hsl(0 0% 0% / 0.06);
     --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -2px hsl(0 0% 0% / 0.05);
@@ -167,5 +175,83 @@
   
   .chat-bubble-bot {
     @apply bg-muted text-foreground rounded-2xl rounded-bl-md;
+  }
+  
+  /* Fitness login page styles */
+  .fitness-gradient {
+    background: var(--gradient-fitness);
+    position: relative;
+  }
+  
+  .fitness-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, 
+      hsl(var(--fitness-primary) / 0.1) 0%, 
+      hsl(var(--fitness-peach) / 0.1) 50%, 
+      hsl(var(--fitness-primary) / 0.1) 100%);
+    animation: fitness-glow 8s ease-in-out infinite alternate;
+  }
+  
+  .fitness-card {
+    background: linear-gradient(145deg, 
+      hsl(var(--fitness-card) / 0.95), 
+      hsl(var(--fitness-card) / 0.98));
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--fitness-primary) / 0.2);
+  }
+  
+  .fitness-input {
+    @apply bg-black/20 border-white/20 text-white placeholder:text-fitness-muted;
+    @apply focus:border-fitness-primary focus:ring-1 focus:ring-fitness-primary;
+    @apply backdrop-blur-sm transition-all duration-300;
+  }
+  
+  .fitness-button {
+    @apply bg-black text-white hover:bg-black/80;
+    @apply shadow-lg transition-all duration-300;
+    @apply hover:shadow-xl hover:scale-[1.02];
+  }
+  
+  .fitness-social-button {
+    @apply bg-white/10 border-white/20 text-white hover:bg-white/20;
+    @apply backdrop-blur-sm transition-all duration-300;
+  }
+  
+  /* Animations */
+  @keyframes fitness-glow {
+    0% { opacity: 0.5; }
+    100% { opacity: 0.8; }
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slide-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out;
+  }
+  
+  .animate-slide-in-up {
+    animation: slide-in-up 0.6s ease-out 0.2s both;
   }
 }

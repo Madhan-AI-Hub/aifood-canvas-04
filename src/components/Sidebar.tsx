@@ -7,7 +7,8 @@ import {
   User, 
   LogOut,
   Menu,
-  X
+  X,
+  LogIn
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ const menuItems = [
   { title: "Smart Device", path: "/smart-device", icon: Smartphone },
   { title: "Chatbot", path: "/chatbot", icon: MessageCircle },
   { title: "Profile", path: "/profile", icon: User },
+  { title: "Login", path: "/login", icon: LogIn },
 ];
 
 export function Sidebar() {
