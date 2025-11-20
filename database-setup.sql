@@ -11,17 +11,11 @@ create table public.profiles (
   full_name text,
   age integer,
   gender text,
-  height numeric, -- in cm
-  weight numeric, -- in kg
-  target_weight numeric, -- in kg
-  activity_level text,
-  health_goals text,
-  diet_preference text,
-  activity_goals text,
-  user_type text, -- 'diabetes', 'gym', or 'general'
-  avatar_url text,
-  created_at timestamptz default now(),
-  updated_at timestamptz default now()
+  height numeric,
+  weight numeric,
+  target_weight numeric,
+  user_type text,
+  created_at timestamptz default now()
 );
 
 alter table public.profiles enable row level security;
@@ -41,7 +35,7 @@ language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id, full_name, age, gender, height, weight, activity_level, health_goals, diet_preference)
+  insert into public.profiles (id, full_name, age, gender, height, weight, target_weight)
   values (
     new.id,
     new.raw_user_meta_data->>'full_name',
@@ -49,9 +43,7 @@ begin
     new.raw_user_meta_data->>'gender',
     (new.raw_user_meta_data->>'height')::numeric,
     (new.raw_user_meta_data->>'weight')::numeric,
-    new.raw_user_meta_data->>'activity_level',
-    new.raw_user_meta_data->>'health_goals',
-    new.raw_user_meta_data->>'diet_preference'
+    (new.raw_user_meta_data->>'target_weight')::numeric
   );
   return new;
 end;
