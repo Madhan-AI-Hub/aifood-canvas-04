@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Dumbbell, 
@@ -27,7 +28,16 @@ export default function Signup() {
     fullName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    age: "",
+    gender: "",
+    height: "",
+    weight: "",
+    targetWeight: "",
+    activityLevel: "",
+    healthGoals: "",
+    dietPreference: "",
+    activityGoals: ""
   });
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -36,6 +46,13 @@ export default function Signup() {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData({
+      ...formData,
+      [name]: value
     });
   };
 
@@ -63,12 +80,21 @@ export default function Signup() {
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
           data: {
             full_name: formData.fullName,
+            age: parseInt(formData.age),
+            gender: formData.gender,
+            height: parseFloat(formData.height),
+            weight: parseFloat(formData.weight),
+            target_weight: parseFloat(formData.targetWeight),
+            activity_level: formData.activityLevel,
+            health_goals: formData.healthGoals,
+            diet_preference: formData.dietPreference,
+            activity_goals: formData.activityGoals
           }
         }
       });
@@ -235,6 +261,163 @@ export default function Signup() {
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </Button>
+                </div>
+              </div>
+
+              {/* Personal Information Section */}
+              <div className="space-y-4 pt-4 border-t border-fitness-muted/20">
+                <h3 className="text-white font-semibold text-lg">Personal Information</h3>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="age" className="text-white font-medium">Age</Label>
+                    <Input
+                      id="age"
+                      name="age"
+                      type="number"
+                      placeholder="Your age"
+                      value={formData.age}
+                      onChange={handleInputChange}
+                      className="fitness-input"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="gender" className="text-white font-medium">Gender</Label>
+                    <Select onValueChange={(value) => handleSelectChange("gender", value)} required>
+                      <SelectTrigger className="fitness-input">
+                        <SelectValue placeholder="Select gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
+                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="height" className="text-white font-medium">Height (cm)</Label>
+                    <Input
+                      id="height"
+                      name="height"
+                      type="number"
+                      placeholder="Your height"
+                      value={formData.height}
+                      onChange={handleInputChange}
+                      className="fitness-input"
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="weight" className="text-white font-medium">Current Weight (kg)</Label>
+                    <Input
+                      id="weight"
+                      name="weight"
+                      type="number"
+                      placeholder="Current weight"
+                      value={formData.weight}
+                      onChange={handleInputChange}
+                      className="fitness-input"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="targetWeight" className="text-white font-medium">Target Weight (kg)</Label>
+                  <Input
+                    id="targetWeight"
+                    name="targetWeight"
+                    type="number"
+                    placeholder="Your target weight"
+                    value={formData.targetWeight}
+                    onChange={handleInputChange}
+                    className="fitness-input"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="activityLevel" className="text-white font-medium">Activity Level</Label>
+                  <Select onValueChange={(value) => handleSelectChange("activityLevel", value)} required>
+                    <SelectTrigger className="fitness-input">
+                      <SelectValue placeholder="Select activity level" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sedentary">Sedentary (little/no exercise)</SelectItem>
+                      <SelectItem value="lightly-active">Lightly Active (light exercise 1-3 days/week)</SelectItem>
+                      <SelectItem value="moderately-active">Moderately Active (moderate exercise 3-5 days/week)</SelectItem>
+                      <SelectItem value="very-active">Very Active (hard exercise 6-7 days/week)</SelectItem>
+                      <SelectItem value="extra-active">Extra Active (very hard exercise & physical job)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Health & Goals Section */}
+              <div className="space-y-4 pt-4 border-t border-fitness-muted/20">
+                <h3 className="text-white font-semibold text-lg">Health & Goals</h3>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="healthGoals" className="text-white font-medium">Primary Health Goal</Label>
+                  <Select onValueChange={(value) => handleSelectChange("healthGoals", value)} required>
+                    <SelectTrigger className="fitness-input">
+                      <SelectValue placeholder="Select your primary goal" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="weight-loss">Weight Loss</SelectItem>
+                      <SelectItem value="weight-gain">Weight Gain</SelectItem>
+                      <SelectItem value="muscle-building">Muscle Building</SelectItem>
+                      <SelectItem value="maintenance">Weight Maintenance</SelectItem>
+                      <SelectItem value="general-health">General Health & Wellness</SelectItem>
+                      <SelectItem value="athletic-performance">Athletic Performance</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="dietPreference" className="text-white font-medium">Diet Preference</Label>
+                  <Select onValueChange={(value) => handleSelectChange("dietPreference", value)} required>
+                    <SelectTrigger className="fitness-input">
+                      <SelectValue placeholder="Select diet preference" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="omnivore">Omnivore</SelectItem>
+                      <SelectItem value="vegetarian">Vegetarian</SelectItem>
+                      <SelectItem value="vegan">Vegan</SelectItem>
+                      <SelectItem value="pescatarian">Pescatarian</SelectItem>
+                      <SelectItem value="keto">Ketogenic</SelectItem>
+                      <SelectItem value="paleo">Paleo</SelectItem>
+                      <SelectItem value="mediterranean">Mediterranean</SelectItem>
+                      <SelectItem value="low-carb">Low Carb</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="activityGoals" className="text-white font-medium">Activity Goals</Label>
+                  <Select onValueChange={(value) => handleSelectChange("activityGoals", value)} required>
+                    <SelectTrigger className="fitness-input">
+                      <SelectValue placeholder="Select activity goals" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="increase-cardio">Increase Cardio Fitness</SelectItem>
+                      <SelectItem value="build-strength">Build Strength</SelectItem>
+                      <SelectItem value="improve-flexibility">Improve Flexibility</SelectItem>
+                      <SelectItem value="lose-fat">Lose Body Fat</SelectItem>
+                      <SelectItem value="gain-muscle">Gain Muscle Mass</SelectItem>
+                      <SelectItem value="sports-performance">Improve Sports Performance</SelectItem>
+                      <SelectItem value="general-fitness">General Fitness</SelectItem>
+                      <SelectItem value="injury-recovery">Injury Recovery</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 

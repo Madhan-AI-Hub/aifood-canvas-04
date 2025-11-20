@@ -12,22 +12,36 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/contexts/ProfileContext";
 
-const menuItems = [
-  { title: "Dashboard", path: "/", icon: LayoutDashboard },
+const authenticatedMenuItems = [
+  { title: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
   { title: "Food Log", path: "/food-log", icon: BookOpen },
   { title: "Smart Device", path: "/smart-device", icon: Smartphone },
   { title: "Chatbot", path: "/chatbot", icon: MessageCircle },
   { title: "Profile", path: "/profile", icon: User },
+];
+
+const publicMenuItems = [
   { title: "Login", path: "/login", icon: LogIn },
 ];
 
 export function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
+  const { profile, isProfileComplete } = useProfile();
 
   const isActive = (path: string) => {
     return location.pathname === path;
+  };
+
+  // Hide sidebar on login/signup pages
+  const hideSidebar = ['/login', '/signup'].includes(location.pathname);
+  
+  if (hideSidebar) {
+    return null;
   };
 
   return (
@@ -69,7 +83,7 @@ export function Sidebar() {
 
         {/* Navigation */}
         <nav className="p-4 space-y-2">
-          {menuItems.map((item) => {
+          {(user ? authenticatedMenuItems : publicMenuItems).map((item) => {
             const Icon = item.icon;
             return (
               <NavLink
@@ -98,19 +112,35 @@ export function Sidebar() {
               </NavLink>
             );
           })}
+          
+          {/* User info and logout (only when authenticated) */}
+          {user && (
+            <>
+              <div className="mt-4 pt-4 border-t border-border">
+                <div className="px-3 py-2 text-sm text-muted-foreground">
+                  {!isCollapsed && (
+                    <div>
+                      <p className="font-medium truncate">{profile?.full_name || user.email}</p>
+                      {!isProfileComplete && (
+                        <p className="text-xs text-orange-500">Complete your profile</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+                
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start text-muted-foreground hover:text-foreground"
+                  onClick={signOut}
+                >
+                  <LogOut className="h-4 w-4 flex-shrink-0" />
+                  {!isCollapsed && <span className="ml-2">Sign Out</span>}
+                </Button>
+              </div>
+            </>
+          )}
         </nav>
-
-        {/* Logout button */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <Button 
-            variant="destructive" 
-            className={`w-full justify-start gap-3 ${isCollapsed ? 'px-2' : ''}`}
-            onClick={() => alert('Logout clicked!')}
-          >
-            <LogOut className="h-5 w-5" />
-            {!isCollapsed && <span>Logout</span>}
-          </Button>
-        </div>
       </div>
 
       {/* Mobile toggle button */}
