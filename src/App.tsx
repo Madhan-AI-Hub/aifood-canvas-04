@@ -16,6 +16,7 @@ import Chatbot from "./pages/Chatbot";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,49 +30,32 @@ const App = () => (
         <AuthProvider>
           <ProfileProvider>
             <div className="min-h-screen flex w-full gradient-primary">
-              <Sidebar />
-              <main className="flex-1">
-                <Routes>
-                  {/* Public routes */}
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/signup" element={<Signup />} />
-                  
-                  {/* Protected routes */}
-                  <Route path="/" element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/dashboard" element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/food-log" element={
-                    <ProtectedRoute>
-                      <FoodLog />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/smart-device" element={
-                    <ProtectedRoute>
-                      <SmartDevice />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/chatbot" element={
-                    <ProtectedRoute>
-                      <Chatbot />
-                    </ProtectedRoute>
-                  } />
-                  <Route path="/profile" element={
-                    <ProtectedRoute>
-                      <Profile />
-                    </ProtectedRoute>
-                  } />
-                  
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
+              <Routes>
+                {/* Public routes - no sidebar */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/onboarding" element={<Onboarding />} />
+                
+                {/* Protected routes with sidebar */}
+                <Route path="/*" element={
+                  <ProtectedRoute>
+                    <div className="flex w-full">
+                      <Sidebar />
+                      <main className="flex-1">
+                        <Routes>
+                          <Route path="/" element={<Dashboard />} />
+                          <Route path="/dashboard" element={<Dashboard />} />
+                          <Route path="/food-log" element={<FoodLog />} />
+                          <Route path="/smart-device" element={<SmartDevice />} />
+                          <Route path="/chatbot" element={<Chatbot />} />
+                          <Route path="/profile" element={<Profile />} />
+                          <Route path="*" element={<NotFound />} />
+                        </Routes>
+                      </main>
+                    </div>
+                  </ProtectedRoute>
+                } />
+              </Routes>
             </div>
           </ProfileProvider>
         </AuthProvider>

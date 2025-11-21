@@ -98,10 +98,11 @@ export default function Signup() {
         });
       } else {
         toast({
-          title: "Account Created!",
-          description: "Please check your email to verify your account.",
+          title: "Account Created Successfully! 🎉",
+          description: "Let's complete your profile setup to personalize your experience.",
         });
-        navigate("/login");
+        // Redirect to onboarding instead of login
+        navigate("/onboarding");
       }
     } catch (error) {
       toast({
